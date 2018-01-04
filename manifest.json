@@ -1,0 +1,18 @@
+{
+
+  "manifest_version": 2,
+  "name": "PageYouNeed",
+  "version": "0.1",
+
+  "description": "",
+
+  "icons": {
+    "48": "icons/icon-48.png"
+  },
+  "permissions": [
+    "history"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  }
+}
