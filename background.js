@@ -1,7 +1,17 @@
-function add_url_to_visits(url, data){
+function add_url_to_visits(url, visits){
+  return new Promise(function(resolve, reject){
+    var visits_with_url = []
+    for (var visit of visits) {
+      visit["url"] = url;
+      visits_with_url.push(visit)
+    }
+    resolve(visits_with_url)
 
+  })
 }
+
 browser.history.search({
+  // TODO: define the start and stop time 
   text: "",
   startTime: 0,
   maxResults: 100
@@ -11,24 +21,13 @@ browser.history.search({
     visits_getters.push(
       browser.history.getVisits({
         url: history.url
-      }).then(function(visits){
-        return new Promise(function(resolve, reject){
-          var visits_with_url = []
-          for (var visit of visits) {
-            // FIXME: The history.url here is always the last iteration
-            visit["url"] = history.url;
-            visits_with_url.push(visit)
-          }
-          resolve(visits_with_url)
-
-        })
-      })
+      }).then(add_url_to_visits.bind(null, history.url))
+      // bind trick from: https://stackoverflow.com/questions/32912459/promises-pass-additional-parameters-to-then-chain
     )
     console.log(history)
   }
   return Promise.all(visits_getters)
 }).then(function(results) {
   console.log(results)
+  // TODO: aggregate and sort the visits by time for further time-windowing
 })
-
-console.log("Hi")
