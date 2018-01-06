@@ -10,26 +10,33 @@ function add_url_to_visits(url, visits){
   })
 }
 
-browser.history.search({
-  // TODO: define the start and stop time 
-  text: "",
-  startTime: 0,
-  maxResults: 100
-}).then(function(historyItems){
-  var visits_getters = []
-  for (var history of historyItems) {
-    visits_getters.push(
-      browser.history.getVisits({
-        url: history.url
-      }).then(add_url_to_visits.bind(null, history.url))
-      // bind trick from: https://stackoverflow.com/questions/32912459/promises-pass-additional-parameters-to-then-chain
-    )
-    console.log(history)
-  }
-  return Promise.all(visits_getters)
-}).then(function(results) {
-  console.log(results)
-  // TODO: aggregate and sort the visits by time for further time-windowing
+// Get all visits, with a hard-coded limit of pages
+function get_all_visits() {
+  return browser.history.search({
+    // TODO: define the start and stop time 
+    text: "",
+    startTime: 0,
+    maxResults: 100  //TODO: Test how many can we handle
+  }).then(function(historyItems){
+    var visits_getters = []
+    for (var history of historyItems) {
+      visits_getters.push(
+        browser.history.getVisits({
+          url: history.url
+        }).then(add_url_to_visits.bind(null, history.url))
+        // bind trick from: https://stackoverflow.com/questions/32912459/promises-pass-additional-parameters-to-then-chain
+      )
+    }
+    return Promise.all(visits_getters)
+  }).then(function(results) {
+    return results
+    // TODO: aggregate and sort the visits by time for further time-windowing
+  })
+}
+
+// main ============================================
+get_all_visits().then(function(visits) {
+  console.log(visits)
 })
 
 chrome.runtime.onMessage.addListener(
