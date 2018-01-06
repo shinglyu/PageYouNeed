@@ -31,3 +31,14 @@ browser.history.search({
   console.log(results)
   // TODO: aggregate and sort the visits by time for further time-windowing
 })
+
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    console.log("Get request ");
+    if (request.method == "get_suggestions") {
+      console.log("Retrieving suggestions");
+      // TODO: get suggestion
+      sendResponse({ suggestions: ["FOO"] });
+    }
+  }
+)
