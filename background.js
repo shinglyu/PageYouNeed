@@ -29,9 +29,13 @@ async function get_all_visits() {
 }
 
 // main ============================================
-get_all_visits().then(function(visits) {
-  console.log(visits)
-})
+async function main() {
+  var visits = await get_all_visits();
+  var sorted_visits = flatten_and_sort(visits);
+  console.log(sorted_visits);
+}
+
+main()
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {

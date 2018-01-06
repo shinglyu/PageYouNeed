@@ -13,7 +13,7 @@
     "history"
   ],
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["background.js", "analysis.js"]
   },
   "chrome_url_overrides": {
     "newtab": "newtab.html"
