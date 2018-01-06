@@ -6,7 +6,7 @@ function flatten_and_sort(visits) {
     flat_visits = flat_visits.concat(site);
   }
 
-  flat_visits.sort();
+  flat_visits.sort(function(x, y) { return x['visitTime'] - y['visitTime'] });
 
   return flat_visits;
   //return undefined;
