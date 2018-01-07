@@ -13,7 +13,7 @@ async function get_all_visits() {
     // TODO: define the start and stop time 
     text: "",
     startTime: 0,
-    maxResults: 100  //TODO: Test how many can we handle
+    maxResults: 1000  //TODO: Test how many can we handle
   })    ;
   var visits_getters = []
   for (var history of historyItems) {
@@ -34,6 +34,14 @@ async function main() {
   var visits = await get_all_visits();
   var sorted_visits = flatten_and_sort(visits);
   console.log(sorted_visits);
+  for (var item of sorted_visits) {
+    console.log(item['visitTime'] + "," + item['url']);
+  }
+  /*
+  for (var i = 0; i < 50; i++) {
+    console.log(sorted_visits[i+1]['visitTime'] - sorted_visits[i]['visitTime'])
+  }
+  */
 
   // TODO: For now this will only run when extension starts
   // Force it recalculate over cetrain time and cache
