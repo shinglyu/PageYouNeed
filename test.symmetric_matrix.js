@@ -15,6 +15,12 @@ describe('Symmetric matrix', function() {
     matrix.update("B", "C", 10)
     expect(matrix.get_row("B")).to.eql({"A": 5, "C": 10});
   });
+  it('returns empty if trying to get a non-existant row', function() {
+    var matrix = new SymmetricMatrix()
+    matrix.update("A", "B", 5)
+    matrix.update("B", "C", 10)
+    expect(matrix.get_row("Z")).to.eql({});
+  });
   it('can handle sparse data', function() {
     var matrix = new SymmetricMatrix()
     matrix.update("A", "B", 5)

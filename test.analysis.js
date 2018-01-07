@@ -41,4 +41,54 @@ describe('Recommender', function() {
       expect(cooccurance_matrix.get(testcase["key1"], testcase["key2"])).to.be(testcase["value"])
     }
   });
+  it('can suggest for one page', function() {
+    var inputs = [
+      {"key1":"A.com", "key2": "B.com", "value": 1},
+      {"key1":"A.com", "key2": "C.com", "value": 2},
+    ]
+    var cooccurance_matrix = new SymmetricMatrix();
+    for (var input of inputs) {
+      cooccurance_matrix.update(input["key1"], input["key2"], input["value"]);
+    }
+    expect(suggest(cooccurance_matrix, ["A.com"])).to.eql([
+      // Sort by score
+      {"url": "C.com", "score": 2},
+      {"url": "B.com", "score": 1}
+    ])
+  });
+  it('can suggest for multiple page', function() {
+    var inputs = [
+      {"key1":"A.com", "key2": "B.com", "value": 1},
+      {"key1":"A.com", "key2": "C.com", "value": 2},
+      {"key1":"B.com", "key2": "C.com", "value": 3},
+      {"key1":"A.com", "key2": "D.com", "value": 8},
+    ]
+    var cooccurance_matrix = new SymmetricMatrix();
+    for (var input of inputs) {
+      cooccurance_matrix.update(input["key1"], input["key2"], input["value"]);
+    }
+    expect(suggest(cooccurance_matrix, ["A.com", "B.com"])).to.eql([
+      // Sort by score
+      {"url": "D.com", "score": 8},
+      {"url": "C.com", "score": 5}
+    ])
+  });
+  it('can ignore not-seen page', function() {
+    // Same setup as previous test, consider extracting it
+    var inputs = [
+      {"key1":"A.com", "key2": "B.com", "value": 1},
+      {"key1":"A.com", "key2": "C.com", "value": 2},
+      {"key1":"B.com", "key2": "C.com", "value": 3},
+      {"key1":"A.com", "key2": "D.com", "value": 8},
+    ]
+    var cooccurance_matrix = new SymmetricMatrix();
+    for (var input of inputs) {
+      cooccurance_matrix.update(input["key1"], input["key2"], input["value"]);
+    }
+    expect(suggest(cooccurance_matrix, ["A.com", "B.com", "Z.com"])).to.eql([
+      // Sort by score
+      {"url": "D.com", "score": 8},
+      {"url": "C.com", "score": 5}
+    ])
+  });
 });

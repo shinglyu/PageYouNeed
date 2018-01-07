@@ -22,6 +22,10 @@ class SymmetricMatrix {
     }
   }
   get_row(key){
+    if (! (key in this.matrix)) {
+      console.warn("Row " + key + " not found in the matrix")
+      return {}
+    }
     var row = this.matrix[key]; // incomplete set of values, this might speedup the for loop
     for (var other_key of Object.keys(this.matrix)) {
       if (! (other_key in row) && other_key != key) {

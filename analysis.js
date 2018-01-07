@@ -1,5 +1,5 @@
 // Returns a promise
-function flatten_and_sort(visits) {
+function flatten_and_sort(visits) { 
   var flat_visits = []
 
   for (var site of visits) {
@@ -51,4 +51,35 @@ function calculate_cooccurance(flat_visits, step) {
     }
   }
   return cooccurance_matrix;
+}
+
+function suggest(cooccurance_matrix, query) {
+  var result_obj = {}
+  for (var url of query) {
+    var curr_row = cooccurance_matrix.get_row(url)
+    // Get the union of all currently seen keys
+    var keys = new Set([curr_row, result_obj].reduce((r, e) => r.concat(Object.keys(e)), []));
+    for (var key of keys.values()) {
+      if (key in curr_row && key in result_obj){
+        result_obj[key] += curr_row[key];
+      }
+      else if (key in curr_row && !(key in result_obj)){
+        result_obj[key] = curr_row[key];
+      }
+    }
+  }
+  console.log(result_obj)
+
+  for (var url of query) {
+    delete result_obj[url];
+  }
+
+  console.log(result_obj)
+
+  var result = []
+  for (var key in result_obj) {
+    result.push({"url": key, "score": result_obj[key]})
+  }
+  result.sort(function(item1, item2){ return item1["score"] - item2["score"]}).reverse();
+  return result;
 }
