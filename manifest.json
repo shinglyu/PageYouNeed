@@ -10,10 +10,11 @@
     "48": "icons/icon-48.png"
   },
   "permissions": [
-    "history"
+    "history",
+    "tabs"
   ],
   "background": {
-    "scripts": ["background.js", "analysis.js"]
+    "scripts": ["background.js", "analysis.js", "symmetric_matrix.js"]
   },
   "chrome_url_overrides": {
     "newtab": "newtab.html"

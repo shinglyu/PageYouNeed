@@ -30,20 +30,26 @@ async function get_all_visits() {
 
 // main ============================================
 async function main() {
+  var time_step = 5 * 60 * 1000; // 5 min
   var visits = await get_all_visits();
   var sorted_visits = flatten_and_sort(visits);
   console.log(sorted_visits);
+
+  // TODO: For now this will only run when extension starts
+  // Force it recalculate over cetrain time and cache
+  var cooccurance_matrix = calculate_cooccurance(sorted_visits, time_step);
+
+
+  chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+      console.log("Get request ");
+      if (request.method == "get_suggestions") {
+        console.log("Retrieving suggestions");
+        sendResponse({ suggestions: suggest(cooccurance_matrix, request.query) });
+      }
+    }
+  )
 }
 
 main()
 
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    console.log("Get request ");
-    if (request.method == "get_suggestions") {
-      console.log("Retrieving suggestions");
-      // TODO: get suggestion
-      sendResponse({ suggestions: ["FOO"] });
-    }
-  }
-)
