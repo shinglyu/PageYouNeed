@@ -7,9 +7,13 @@ chrome.tabs.query({}, function(tabs){
     var ul = document.getElementById("suggestions_list");
     for (var suggestion of response.suggestions) {
       var li = document.createElement("li");
+      var title = document.createElement("b");
       var link = document.createElement("a");
+      title.textContent = response.titles[suggestion.url];
       link.href = suggestion.url;
-      link.innerText = suggestion.url;
+      link.textContent = suggestion.url;
+      li.appendChild(title);
+      li.appendChild(document.createTextNode("\u00A0"));
       li.appendChild(link);
       ul.appendChild(li);
     }

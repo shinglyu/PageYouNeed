@@ -73,7 +73,7 @@ function suggest(cooccurance_matrix, query) {
   console.log(query)
   for (var url of query) {
     var curr_row = cooccurance_matrix.get_row(url)
-    console.log(curr_row)
+    //console.log(curr_row)
     // Get the union of all currently seen keys
     var keys = new Set([curr_row, result_obj].reduce((r, e) => r.concat(Object.keys(e)), []));
     for (var key of keys.values()) {
@@ -99,4 +99,12 @@ function suggest(cooccurance_matrix, query) {
   }
   result.sort(function(item1, item2){ return item1["score"] - item2["score"]}).reverse();
   return result;
+}
+
+function get_url_title_map(visits) {
+  var url_to_title = {};
+  for (var visit of visits) {
+    url_to_title[visit.url] = visit.title;
+  }
+  return url_to_title
 }

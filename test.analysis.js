@@ -14,6 +14,20 @@ describe('Data cleaning', function() {
     var result = flatten_and_sort(input)
     expect(result).to.eql(expected);
   });
+  it('can get url => title mapping', function() {
+    var input = [
+      {"url":"A.com", "title": "Amazing A"},
+      {"url":"B.com", "title": "Bullish B"},
+      {"url":"C.com", "title": "Creative C"}
+    ]
+    var expected = {
+      "A.com": "Amazing A",
+      "B.com": "Bullish B",
+      "C.com": "Creative C"
+    } 
+    var result = get_url_title_map(input)
+    expect(result).to.eql(expected);
+  });
 });
 
 describe('Recommender', function() {
