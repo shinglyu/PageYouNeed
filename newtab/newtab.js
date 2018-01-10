@@ -9,7 +9,7 @@ chrome.tabs.query({}, function(tabs){
       var li = document.createElement("li");
       var title = document.createElement("b");
       var link = document.createElement("a");
-      title.textContent = response.titles[suggestion.url];
+      title.textContent = response.titles[suggestion.url] ? response.titles[suggestion.url] : "(No title)";
       link.href = suggestion.url;
       link.textContent = suggestion.url;
       li.appendChild(title);

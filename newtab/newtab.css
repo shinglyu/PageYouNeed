@@ -1,0 +1,11 @@
+a {
+  color: grey;
+  font-size: small;
+}
+
+li { padding-bottom: 1em; }
+
+li:nth-child(odd) { background: lightgrey;  }
+
+li:hover { background: lightgreen; }
+

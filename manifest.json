@@ -17,6 +17,6 @@
     "scripts": ["background.js", "analysis.js", "symmetric_matrix.js", "filter.js"]
   },
   "chrome_url_overrides": {
-    "newtab": "newtab.html"
+    "newtab": "newtab/newtab.html"
   }
 }
