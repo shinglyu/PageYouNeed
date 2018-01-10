@@ -25,4 +25,12 @@ describe('Filtering', function() {
     var result = filter_http_to_https(input)
     expect(result).to.eql(expected);
   });
+  it('can filter out feedly item url', function() {
+    var input = [
+      {"url":"https://feedly.com/i/entry/VF72X7MyzXC9jZseEj/KwuqlRloviDncQiaJM5pE+nA=_160dc0ab055:50bd64:6e7207bb" }, 
+    ]
+    var expected = []
+    var result = filter_feedly_item(input)
+    expect(result).to.eql(expected);
+  });
 });

@@ -1,6 +1,7 @@
 function filter_noisy_urls(histories) {
   histories = filter_google_search(histories);
   histories = filter_http_to_https(histories);
+  histories = filter_feedly_item(histories);
   return histories
 
 }
@@ -22,4 +23,8 @@ function filter_http_to_https(histories) {
     seen.add(url);
   }
   return histories.filter(history => seen.has(history.url));
+}
+
+function filter_feedly_item(histories) {
+  return histories.filter(history => !history.url.match(/^http(s?):\/\/feedly.com\/i\/entry/))
 }
