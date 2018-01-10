@@ -24,8 +24,8 @@ function calculate_cooccurance(flat_visits, step) {
   var cooccurance_matrix = new SymmetricMatrix();
   for (var visit of flat_visits) {
 
-    console.log(visit["visitTime"] +">=" + start_time)
-    console.log(visit["visitTime"] +"<" + (start_time+step))
+    //console.log(visit["visitTime"] +">=" + start_time)
+    //console.log(visit["visitTime"] +"<" + (start_time+step))
     if (visit["visitTime"] >= start_time && visit["visitTime"] < start_time + step) {
       cooccurance.add(visit["url"])
     }
@@ -34,12 +34,12 @@ function calculate_cooccurance(flat_visits, step) {
       //console.log(cooccurance)
       //console.log(start_time)
       //console.log(start_time+step)
-      if (cooccurance.length > 1) {
-        console.log(cooccurance)
-      }
-      else {
-        console.log("Single item set")
-      }
+      //if (cooccurance.length > 1) {
+      //  console.log(cooccurance)
+      //}
+      //else {
+      //  console.log("Single item set")
+      //}
       for (var key1 of cooccurance.values()) {
         for (var key2 of cooccurance.values()) {
           if (key1 < key2) {

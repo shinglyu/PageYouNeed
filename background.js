@@ -12,20 +12,21 @@ async function get_all_visits() {
   var historyItems = await browser.history.search({
     // TODO: define the start and stop time 
     text: "",
-    startTime: 0,
+    startTime: Date.now() - (7 * 24 * 60 * 60 * 1000),
     maxResults: 1000  //TODO: Test how many can we handle
   })    ;
-  var visits_getters = []
+
+  historyItems = filter_noisy_urls(historyItems);
+
+  var visits = []
   for (var history of historyItems) {
-    visits_getters.push(
+    visits.push(
       await add_url_to_visits(history.url, await browser.history.getVisits({
         url: history.url
       }))
-      // bind trick from: https://stackoverflow.com/questions/32912459/promises-pass-additional-parameters-to-then-chain
     )
   }
-  return visits_getters;
-    // TODO: aggregate and sort the visits by time for further time-windowing
+  return visits;
 }
 
 // main ============================================
@@ -33,9 +34,9 @@ async function main() {
   var time_step = 5 * 60 * 1000; // 5 min
   var visits = await get_all_visits();
   var sorted_visits = flatten_and_sort(visits);
-  console.log(sorted_visits);
+  //console.log(sorted_visits);
   for (var item of sorted_visits) {
-    console.log(item['visitTime'] + "," + item['url']);
+    //console.log(item['visitTime'] + "," + item['url']);
   }
   /*
   for (var i = 0; i < 50; i++) {
@@ -50,9 +51,9 @@ async function main() {
 
   chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-      console.log("Get request ");
+      //console.log("Get request ");
       if (request.method == "get_suggestions") {
-        console.log("Retrieving suggestions");
+        //console.log("Retrieving suggestions");
         sendResponse({ suggestions: suggest(cooccurance_matrix, request.query) });
       }
     }
