@@ -1,15 +1,14 @@
-function add_url_and_title_to_visits(url, title, visits){
+function add_url_to_visits(url, visits){
     var visits_with_url = []
     for (var visit of visits) {
       visit["url"] = url;
-      visit["title"] = title;
       visits_with_url.push(visit)
     }
     return visits_with_url;
 }
 
 // Get all visits, with a hard-coded limit of pages
-async function get_all_visits() {
+async function get_historyItems() {
   var historyItems = await browser.history.search({
     // TODO: define the start and stop time 
     text: "",
@@ -17,14 +16,15 @@ async function get_all_visits() {
     maxResults: 5000  //TODO: Test how many can we handle
   });
 
-  historyItems = filter_noisy_urls(historyItems);
+  return historyItems
+}
 
+async function get_all_visits(historyItems) {
   var visits = []
   for (var history of historyItems) {
     visits.push(
-      add_url_and_title_to_visits(
+      add_url_to_visits(
         history.url, 
-        history.title, 
         await browser.history.getVisits({ url: history.url })
       )
     )
@@ -35,9 +35,13 @@ async function get_all_visits() {
 // main ============================================
 async function main() {
   var time_step = 5 * 60 * 1000; // 5 min
-  var visits = await get_all_visits();
+
+  var historyItems = await get_historyItems();
+  historyItems = filter_noisy_urls(historyItems);
+  var visits = await get_all_visits(historyItems);
   var sorted_visits = flatten_and_sort(visits);
-  var titles = get_url_title_map(sorted_visits);
+
+  var titles = get_url_title_map(historyItems);
   //console.log(sorted_visits);
   for (var item of sorted_visits) {
     //console.log(item['visitTime'] + "," + item['url']);
