@@ -1,7 +1,6 @@
 function add_url_to_visits(url, visits){
     var visits_with_url = []
-    for (var visit of visits) {
-      visit["url"] = url;
+    for (var visit of visits) { visit["url"] = url;
       visits_with_url.push(visit)
     }
     return visits_with_url;
@@ -12,8 +11,8 @@ async function get_historyItems() {
   var historyItems = await browser.history.search({
     // TODO: define the start and stop time 
     text: "",
-    startTime: Date.now() - (7 * 24 * 60 * 60 * 1000),
-    maxResults: 5000  //TODO: Test how many can we handle
+    startTime: Date.now() - (28 * 24 * 60 * 60 * 1000),
+    maxResults: 10000  //TODO: Test how many can we handle
   });
 
   return historyItems
@@ -55,6 +54,7 @@ async function main() {
   // TODO: For now this will only run when extension starts
   // Force it recalculate over cetrain time and cache
   var cooccurance_matrix = calculate_cooccurance(sorted_visits, time_step);
+  var time_counts = new TimeOfDayCounts(sorted_visits);
 
 
   chrome.runtime.onMessage.addListener(
@@ -62,8 +62,11 @@ async function main() {
       //console.log("Get request ");
       if (request.method == "get_suggestions") {
         //console.log("Retrieving suggestions");
+        //TODO: Change this to be similar to the TimeOfDayCounts API
+        var cooccurance_suggestions = suggest(cooccurance_matrix, request.query);
+        //var time_suggestions = time_counts.suggest(new Date());
         sendResponse({ 
-          suggestions: suggest(cooccurance_matrix, request.query),
+          suggestions: cooccurance_suggestions,
           titles: titles
         });
       }

@@ -2,8 +2,6 @@
 // Consider wraping this in async await
 chrome.tabs.query({}, function(tabs){
   var query = tabs.map(t => t.url)
-  console.log(query)
-  console.log("before send")
   chrome.runtime.sendMessage({method: "get_suggestions", query: query}, function(response) {
     var ul = document.getElementById("suggestions_list");
     var lines = 0;

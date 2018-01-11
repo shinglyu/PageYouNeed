@@ -14,7 +14,13 @@
     "tabs"
   ],
   "background": {
-    "scripts": ["background.js", "analysis.js", "symmetric_matrix.js", "filter.js"]
+    "scripts": [
+      "background.js",
+      "analysis.js",
+      "symmetric_matrix.js",
+      "filter.js",
+      "time_of_day_counts.js"
+    ]
   },
   "chrome_url_overrides": {
     "newtab": "newtab/newtab.html"

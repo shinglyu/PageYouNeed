@@ -90,9 +90,6 @@ function suggest(cooccurance_matrix, query) {
     delete result_obj[url];
   }
 
-  console.log("Suggestion result:")
-  console.log(result_obj)
-
   var result = []
   for (var key in result_obj) {
     result.push({"url": key, "score": result_obj[key]})
