@@ -105,3 +105,29 @@ function get_url_title_map(visits) {
   }
   return url_to_title
 }
+
+function combine_suggestions(suggestions) {
+  var combined_suggestion_hash = {};
+  for (var suggestion of suggestions) {
+    // var max = Math.max(suggestion.map(s => s.score))
+    // The suggestions are sorted, so the max is the first one
+    var max = suggestion[0]["score"]
+    for (var url of suggestion) {
+      if (!(url.url in combined_suggestion_hash)) {
+        combined_suggestion_hash[url.url] = url.score / max;
+      }
+      else {
+        combined_suggestion_hash[url.url] += url.score / max;
+      }
+    }
+  }
+
+  // This transformation is redundent, we only need this output structure if we
+  // need to store more they url and score, but let keep it this way before we
+  // think through it
+  var combine_suggestion = [];
+  for (var url in combined_suggestion_hash) {
+    combine_suggestion.push({"url": url, "score": combined_suggestion_hash[url]});
+  }
+  return combine_suggestion;
+}

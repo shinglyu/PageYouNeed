@@ -158,3 +158,19 @@ describe('Recommender', function() {
     }
   });
 });
+
+describe('Suggestion combination', function() {
+  it('can normalize the combine scores', function() {
+    var input = [
+      [{"url": "A", "score": 100}, {"url": "B", "score": 50}],
+      [{"url": "B", "score":  10}, {"url": "C", "score":  3}]
+    ]
+    var expected = [
+      {"url": "A", "score": 1.0}, 
+      {"url": "B", "score": 1.5},
+      {"url": "C", "score": 0.3}, 
+    ]
+
+    expect(combine_suggestions(input)).to.eql(expected);
+  });
+});

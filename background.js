@@ -64,9 +64,10 @@ async function main() {
         //console.log("Retrieving suggestions");
         //TODO: Change this to be similar to the TimeOfDayCounts API
         var cooccurance_suggestions = suggest(cooccurance_matrix, request.query);
-        //var time_suggestions = time_counts.suggest(new Date());
+        var time_suggestions = time_counts.suggest(new Date());
+        var suggestions = combine_suggestions([cooccurance_suggestions, time_suggestions]);
         sendResponse({ 
-          suggestions: cooccurance_suggestions,
+          suggestions: suggestions,
           titles: titles
         });
       }
