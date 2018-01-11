@@ -14,9 +14,31 @@ chrome.tabs.query({}, function(tabs){
       title.textContent = response.titles[suggestion.url] ? response.titles[suggestion.url] : "(No title)";
       link.href = suggestion.url;
       link.textContent = suggestion.url;
+
+
+
       li.appendChild(title);
       li.appendChild(document.createTextNode("\u00A0"));
       li.appendChild(link);
+      if (response.debug) {
+        var item = response.debug.cooccurance.find(elem => elem.url == suggestion.url);
+        if (item) {
+          var debug = document.createElement("span");
+          debug.classList.add("debug");
+          debug.textContent += ("tabs: " + item.score);
+          li.appendChild(document.createTextNode("\u00A0"));
+          li.appendChild(debug);
+        }
+
+        item = response.debug.time.find(elem => elem.url == suggestion.url);
+        if (item) {
+          var debug = document.createElement("span");
+          debug.classList.add("debug");
+          debug.textContent += ("time: " + item.score);
+          li.appendChild(document.createTextNode("\u00A0"));
+          li.appendChild(debug);
+        }
+      }
       ul.appendChild(li);
 
       lines += 1;

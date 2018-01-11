@@ -33,6 +33,7 @@ async function get_all_visits(historyItems) {
 
 // main ============================================
 async function main() {
+  const DEBUG = true;
   var time_step = 5 * 60 * 1000; // 5 min
 
   var historyItems = await get_historyItems();
@@ -66,9 +67,11 @@ async function main() {
         var cooccurance_suggestions = suggest(cooccurance_matrix, request.query);
         var time_suggestions = time_counts.suggest(new Date());
         var suggestions = combine_suggestions([cooccurance_suggestions, time_suggestions]);
+        var debug_info = DEBUG ? {"cooccurance":cooccurance_suggestions, "time": time_suggestions} : undefined;
         sendResponse({ 
           suggestions: suggestions,
-          titles: titles
+          titles: titles,
+          debug: debug_info
         });
       }
     }
