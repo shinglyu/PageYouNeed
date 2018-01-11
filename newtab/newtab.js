@@ -1,3 +1,4 @@
+// Getting suggestions and populate the list
 // Consider wraping this in async await
 chrome.tabs.query({}, function(tabs){
   var query = tabs.map(t => t.url)
@@ -25,6 +26,7 @@ chrome.tabs.query({}, function(tabs){
   });
 })
       
+// Quick filter
 var g_debouce_timer = undefined;
 const debounce_time = 500;
 
@@ -43,5 +45,19 @@ document.getElementById("search").addEventListener("input", function(event){
       }
     }
   }, debounce_time);
+});
+
+document.getElementById("search").addEventListener("keyup", function(event){
+  if (event.key == "Enter") {
+    var query = event.target.value;
+    // Click the first match if there is any, otherwise search google
+    var lis = document.getElementsByTagName("li");
+    for (var li of lis) {
+      if (li.textContent.toLowerCase().includes(query.toLowerCase())) {
+        li.getElementsByTagName("a")[0].click();
+      }
+    }
+    window.location = "https://www.google.com/search?q=" + encodeURIComponent(event.target.value);
+  }
 });
 
