@@ -2,9 +2,12 @@ a {
   font-size: small;
 }
 
-li { padding-bottom: 1em; }
+li { padding: 0.3em; }
 
 li:nth-child(odd) { background: lightgrey;  }
 
 li:hover { background: lightgreen; }
 
+li:focus-within { background: lightgreen; }
+
+li.hidden { display: none; }
