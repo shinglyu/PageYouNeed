@@ -3,6 +3,10 @@
 chrome.tabs.query({}, function(tabs){
   var query = tabs.map(t => t.url)
   chrome.runtime.sendMessage({method: "get_suggestions", query: query}, function(response) {
+
+    document.getElementById("loading").remove();
+
+
     var ul = document.getElementById("suggestions_list");
     var lines = 0;
     const max_lines = 200;
