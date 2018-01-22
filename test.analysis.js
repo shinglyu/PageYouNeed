@@ -173,4 +173,16 @@ describe('Suggestion combination', function() {
 
     expect(combine_suggestions(input)).to.eql(expected);
   });
+  it('can combine empty suggestions', function() {
+    var input = [
+      [],
+      [{"url": "B", "score":  10}, {"url": "C", "score":  3}]
+    ]
+    var expected = [
+      {"url": "B", "score": 1.0},
+      {"url": "C", "score": 0.3}, 
+    ]
+
+    expect(combine_suggestions(input)).to.eql(expected);
+  });
 });

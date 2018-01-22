@@ -111,6 +111,9 @@ function combine_suggestions(suggestions) {
   for (var suggestion of suggestions) {
     // var max = Math.max(suggestion.map(s => s.score))
     // The suggestions are sorted, so the max is the first one
+    if (suggestion.length == 0) {
+      continue;
+    }
     var max = suggestion[0]["score"]
     for (var url of suggestion) {
       if (!(url.url in combined_suggestion_hash)) {
